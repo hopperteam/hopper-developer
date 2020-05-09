@@ -69,8 +69,13 @@ except:
     pass
 ```
 
+<!-- tabs:end -->
+
 ## Update an App
 You can also update some of the Apps metadata:
+
+<!-- tabs:start -->
+
 #### ** Go **
 ```go
 err := app.Update(&AppUpdate{
@@ -94,3 +99,4 @@ except:
 ```
 <!-- tabs:end -->
 You can also leave out parameters, you should only specify parameters you want to change.
+
