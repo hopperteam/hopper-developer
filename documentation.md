@@ -7,7 +7,7 @@ Before being able to use the API, it has to be initialized:
 <!-- tabs:start -->
 
 #### ** Go **
-```Go
+```go
 import (
     "github.com/hopperteam/hopper-api" hopperApi
 )
@@ -16,7 +16,7 @@ api := hopperApi.CreateHopperApi(HopperProd)
 api := hopperApi.CreateHopperApi(HopperDev)
 ```
 #### ** Python **
-```Python
+```python
 import hopper-api
 
 api = hopper_api.HopperApi(hopperApi.HopperDev)
@@ -33,13 +33,13 @@ This function returns / creates a `HopperApi` instance, which is responsible for
 <!-- tabs:start -->
 
 #### ** Go **
-```Go
+```go
 if !api.CheckConnectivity() {
     // Cannot reach Hopper :(
 }
 ```
 #### ** Python **
-```Python
+```python
 if not api.check_connectivity():
     # Cannot reach Hopper! :( 
 ```
