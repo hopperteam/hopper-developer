@@ -54,7 +54,7 @@ You'll have to create an `App` object once for your app. After that you should s
 
 #### ** Go **
 ```go
-app, err := api.CreateApp("Hopper", "hoppercloud.net", "https://hoppercloud.net/logo.png", "https://hoppercloud.net/manageSubscription", "info@hoppercloud.net")
+app, err := api.CreateApp("Hopper", "https://hoppercloud.net", "https://hoppercloud.net/logo.png", "https://hoppercloud.net/manageSubscription", "info@hoppercloud.net")
 
 if err != nil {
     // An error occured :(
@@ -63,7 +63,7 @@ if err != nil {
 #### ** Python **
 ```python
 try:
-    app = api.create_app("Hopper", "hoppercloud.net", "https://hoppercloud.net/logo.png", "https://hoppercloud.net/manageSubscription", "info@hoppercloud.net")
+    app = api.create_app("Hopper", "https://hoppercloud.net", "https://hoppercloud.net/logo.png", "https://hoppercloud.net/manageSubscription", "info@hoppercloud.net")
 except:
     # An error occured! :(
     pass
