@@ -67,7 +67,9 @@ The user has to be forwarded to hopper with a `SubscribeRequest` object. The exa
 ### Calling the API
 All URLs are relative to the API's root. Parameters are passed as query parameters for `GET` and `DELETE` queries and as JSON objects in the body for `POST` and `PUT` calls. When a POST or PUT call only has one parameter, the name of it is omitted and the value of parameter is passed directly.
 
-#### `POST /app (name: string, baseUrl: string, imageUrl: string, manageUrl: string, cert: string)` 
+### Managing Apps
+
+#### `POST /app (name: string, baseUrl: string, imageUrl: string, manageUrl: string, contactEmail: string, cert: string)` 
 _Registers the app with hopper_
 
 `cert` is a base64 encoded PEM-RSA Public Key. The private key is for authentication of the app to the backend.
@@ -84,6 +86,8 @@ _Updates the app's information_
   - `cert` 
   
 `verify` is an encrypted (using the private key of the app) sha256 hash of the stringified `data` object.
+
+### Managing Notifications
 
 #### `POST /notification (subscriptionId: string, notification: Notification)`
 _Adds a new notification_
