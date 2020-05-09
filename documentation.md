@@ -17,7 +17,7 @@ api := hopperApi.CreateHopperApi(HopperDev)
 ```
 #### ** Python **
 ```python
-import hopper-api
+import hopper_api
 
 api = hopper_api.HopperApi(hopper_api.HopperDev)
 apiProd = hopper_api.HopperApi(hopper_api.HopperProd)
