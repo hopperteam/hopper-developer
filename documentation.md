@@ -29,7 +29,6 @@ The parameter to the function / constructor specifies whether to use Hopper's [d
 
 This function returns / creates a `HopperApi` instance, which is responsible for the communication to Hopper. Creation of this object does not check whether Hopper is reachable. This can be accomplished with `HopperApi.checkConnectivity()`:
 
-
 <!-- tabs:start -->
 
 #### ** Go **
@@ -46,3 +45,4 @@ if not api.check_connectivity():
 
 <!-- tabs:end -->
 
+Please note: This function call is not mandatory. It is just good to check whether the API is correctly installed and network routes are correctly configured.
