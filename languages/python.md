@@ -1,5 +1,5 @@
 # Python specific instructions
-To install the Python library do
+You can install the library with `pip`:
 ```
-pip install hopper-api
+pip install hopper_api
 ```

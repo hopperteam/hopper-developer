@@ -1,5 +1,6 @@
 * [Home](/)
-* [Library documentation](/documentation.md)
+* [App library documentation](/documentation.md)
 * [API documentation](/api.md)
 * [Subscription Process](/subscriptionProcess.md)
 * [Language specific instructions](/languages/)
+    * [Python](/languages/python.md)
