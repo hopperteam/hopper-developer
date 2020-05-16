@@ -44,7 +44,7 @@ The user has to be forwarded to hopper with a `SubscribeRequest` object. The exa
   - `redirect`: OnClick: Redirect user in new tab to `url`
 
 #### `App`
-  - `id: string`
+  - `id: string`  _do not send with object for creation_
   - `name: string`
   - `imageUrl: string`
   - `isHidden: boolean`
