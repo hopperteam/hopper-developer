@@ -48,7 +48,7 @@ if not api.check_connectivity():
 Please note: This function call is not mandatory. It is just good to check whether the API is correctly installed and network routes are correctly configured.
 
 ## Create an App
-You'll have to create an `App` object once for your app. After that you should serialize and deserialize it. Creation of an App is accomplished by `HopperApi.createApp()`:
+You'll have to create an `App` object once for your app. After that you should serialize and deserialize it. Creation of an App is accomplished by `HopperApi.createApp(name: string, baseUrl: string, imageUrl: string, manageUrl: string, contactEmail: string)`:
 
 <!-- tabs:start -->
 
@@ -166,3 +166,136 @@ except:
 ```
 
 <!-- tabs:end -->
+
+## Create a SubscribeRequest
+To create a SubscribeRequest you should call `App.createSubscribeRequest(callback: string, accountName?: string)`, which will return a URL to which the user has to be forwarded to:
+
+<!-- tabs:start -->
+
+#### ** Go **
+```go
+url := app.CreateSubscribeRequest("https://my-callback.com", "TestUser")
+// Forward user
+```
+#### ** Python **
+```python
+url = app.create_subscribe_request("https://my-callback.com", "TestUser")
+# Forward user
+```
+
+<!-- tabs:end -->
+
+After the user clicked on "accept" or "decline" in Hopper's UI, the user will be forwarded to the provided callback. There will be 2 out of 3 possible query parameters included in this request:
+
+- `status`: Either `success` or `error`
+- `error`: In case of `error`: The error message.
+- `id`: In case of `success`: The `subscriptionId`
+
+## Create a Notification
+After a subscriptionId was received, notifications can be send on to this subscription. This is accomplished via `HopperApi.postNotification(subscriptionId: string, notification: Notification)`. This function call return the Notification's ID:
+
+<!-- tabs:start -->
+
+#### ** Go **
+```go
+id, err := api.PostNotification("subscriptionId", notification.Default("TestHeading", "TestBody"))
+```
+#### ** Python **
+```python
+id = api.post_notification("subscriptionId", Notification.default("TestHeading", "TestBody"))
+```
+
+<!-- tabs:end -->
+
+## Update a Notification
+The notification can be updated even after it was posted with `HopperApi.updateNotification(notificationId: string, heading?: string, timestamp?: string, imageUrl?: string, isDone?: string, isSilent?: string, content?: string, actions?: Action[])`:
+
+<!-- tabs:start -->
+
+#### ** Go **
+```go
+err := api.UpdateNotification("notificationId", ...)  // tbd
+```
+#### ** Python **
+```python
+id = api.update_notification("notificationId", heading="Test")
+```
+
+<!-- tabs:end -->
+
+## Delete a Notification
+Notifications can be deleted by Apps after they were pushed. This is accomplished by `HopperApi.deleteNotification(notificationId: string)`:
+
+<!-- tabs:start -->
+
+#### ** Go **
+```go
+err := api.DeleteeNotification("notificationId")
+```
+#### ** Python **
+```python
+api.delete_notification("notificationId")
+```
+
+<!-- tabs:end -->
+
+## More notification options
+The Notification object is implemented to be easy to instanciate and use. For that there is the factory function `Notification.default(heading: string, content: string)` to create Notifications:
+
+<!-- tabs:start -->
+
+#### ** Go **
+```go
+notification := notification.Default("TestHeading", "TestBody")
+```
+#### ** Python **
+```python
+notification = Notification.default("TestHeading", "TestBody")
+```
+
+<!-- tabs:end -->
+
+To set parameters use the corresponding functions on the object, each returning the modified object to allow for call-chaining:
+
+- `Notification.isDone(value: bool)`  sets isDone on the Notification (default Value: `False`)
+- `Notification.isSilent(value: bool)`  sets isSilent on the Notification (default Value: `False`)
+- `Notification.timestamp(value: number)`  sets the Notification's timestamp (default Value: current Timestamp)
+- `Notification.action(action: Action)`  adds an Action to the Notification
+- `Notification.actions(actions: Action[])`  overrides all added Actions with the given Action array
+
+<!-- tabs:start -->
+
+#### ** Go **
+```go
+notification := notification.Default("TestHeading", "TestBody").IsDone(true).IsSilent(true)
+```
+#### ** Python **
+```python
+notification = Notification.default("TestHeading", "TestBody").is_done(true).is_silent(false)
+```
+
+<!-- tabs:end -->
+
+Actions have a similar structure. They have three available factory functions:
+
+- `Action.submit(text: string, url: string)`  Creates an Action of type `submit` (OnClick: POST Request to URL (in Background))
+- `Action.text(text: string, url: string")`  Creates an Action of type `text` (OnClick: Text input, ob confirm Post Request to URL (in Background) with body `{"text": ...}`)
+- `Action.redirect(text: string, url: string)`  Creates and Action of type `redirect` (OnClick: Redirect (in new Tab) to URL)
+
+There is one function available for setting parameters (also returning the modified object):
+
+- `Action.markAsDone(value: bool)`  sets whether triggering the action marks the notification as done
+
+<!-- tabs:start -->
+
+#### ** Go **
+```go
+notification := notification.Default("TestHeading", "TestBody").action(Action.Submit("Mark as Read", "https://..").markAsDone(true))
+```
+#### ** Python **
+```python
+notification = Notification.default("TestHeading", "TestBody").action(Action.submit("Mark as Read", "https://..").mark_as_done(true))
+```
+
+<!-- tabs:end -->
+

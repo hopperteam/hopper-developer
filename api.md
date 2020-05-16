@@ -21,9 +21,9 @@ The user has to be forwarded to hopper with a `SubscribeRequest` object. The exa
 
 ## Objects
 #### `Notification`
-  - `id: string`
+  - `id: string`  _do not send with object for creation_
   - `heading: string` 
-  - `subscription: string`
+  - `subscription: string`  _do not send with object for creation_
   - `timestamp: number` _in ms_
   - `imageUrl: string?`
   - `isDone: boolean` 
@@ -58,7 +58,6 @@ The user has to be forwarded to hopper with a `SubscribeRequest` object. The exa
   - `app: App`
 
 #### `SubscribeRequest`
-  - `id: number` _App Id_
   - `callback: string(url)`: _Callback to be called after success or failure, has to be in the app's base URL_
   - `accountName?: string`: _The display name for this specific subscription (probably the account name)_
   - `requestedInfos: string[]`
