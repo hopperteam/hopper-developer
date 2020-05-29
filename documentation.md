@@ -9,7 +9,7 @@ Before being able to use the API, it has to be initialized:
 #### ** Go **
 ```go
 import (
-    "github.com/hopperteam/hopper-api" hopperApi
+    "github.com/hopperteam/hopper-api/golang" hopperApi
 )
 
 api := hopperApi.CreateHopperApi(HopperProd)
@@ -33,7 +33,8 @@ This function returns / creates a `HopperApi` instance, which is responsible for
 
 #### ** Go **
 ```go
-if !api.CheckConnectivity() {
+ok, _ := api.CheckConnectivity()
+if !ok {
     // Cannot reach Hopper :(
 }
 ```
@@ -78,11 +79,9 @@ You can also update some of the Apps metadata:
 
 #### ** Go **
 ```go
-err := app.Update(&AppUpdate{
-    Name: "App2",
-    ImageUrl: "..",
-    ManageUrl: "..",
-    ContactEmail: ".."
+err := app.Update(&hopperApi.AppUpdateParams{
+    Name: hopperApi.StrPtr("App2"),
+    ContactEmail: hopperApi.StrPtr(".."),
 })
 
 if err != nil {
@@ -109,8 +108,12 @@ To be able to use the app after your application restarts, it can be serialized 
 
 #### ** Go **
 ```go
-serialized := app.Serialize()
-// Store this somewhere
+serialized, err := app.Serialize()
+
+if err != nil {
+    // An error occured :(
+}
+// Store serialized somewhere
 ```
 #### ** Python **
 ```python
@@ -174,7 +177,11 @@ To create a SubscribeRequest you should call `App.createSubscribeRequest(callbac
 
 #### ** Go **
 ```go
-url := app.CreateSubscribeRequest("https://my-callback.com", "TestUser")
+url, err := app.CreateSubscribeRequest("https://my-callback.com", hopperApi.StrPtr("TestUser"))
+
+if err != nil {
+    // An error occured :(
+}
 // Forward user
 ```
 #### ** Python **
@@ -198,7 +205,11 @@ After a subscriptionId was received, notifications can be send on to this subscr
 
 #### ** Go **
 ```go
-id, err := api.PostNotification("subscriptionId", notification.Default("TestHeading", "TestBody"))
+id, err := api.PostNotification("subscriptionId", hopperApi.DefaultNotification("TestHeading", "TestBody"))
+
+if err != nil {
+    // An error occured :(
+}
 ```
 #### ** Python **
 ```python
@@ -214,7 +225,13 @@ The notification can be updated even after it was posted with `HopperApi.updateN
 
 #### ** Go **
 ```go
-err := api.UpdateNotification("notificationId", ...)  // tbd
+err := api.UpdateNotification("notificationId", 
+    &hopperApi.NotificationUpdate{ Heading: hopperApi.StrPtr("Updated") }
+) 
+
+if err != nil {
+    // An error occured :(
+}
 ```
 #### ** Python **
 ```python
@@ -230,7 +247,11 @@ Notifications can be deleted by Apps after they were pushed. This is accomplishe
 
 #### ** Go **
 ```go
-err := api.DeleteeNotification("notificationId")
+err := api.DeleteNotification("notificationId")
+
+if err != nil {
+    // An error occured :(
+}
 ```
 #### ** Python **
 ```python
@@ -246,7 +267,7 @@ The Notification object is implemented to be easy to instanciate and use. For th
 
 #### ** Go **
 ```go
-notification := notification.Default("TestHeading", "TestBody")
+notification := hopperApi.DefaultNotification("TestHeading", "TestBody")
 ```
 #### ** Python **
 ```python
@@ -267,7 +288,7 @@ To set parameters use the corresponding functions on the object, each returning 
 
 #### ** Go **
 ```go
-notification := notification.Default("TestHeading", "TestBody").IsDone(true).IsSilent(true)
+notification := hopperApi.DefaultNotification("TestHeading", "TestBody").IsDone(true).IsSilent(true)
 ```
 #### ** Python **
 ```python
@@ -290,7 +311,9 @@ There is one function available for setting parameters (also returning the modif
 
 #### ** Go **
 ```go
-notification := notification.Default("TestHeading", "TestBody").action(Action.Submit("Mark as Read", "https://..").markAsDone(true))
+notification := hopperApi.DefaultNotification("TestHeading", "TestBody").action(
+    hopperApi.SubmitAction("Mark as Read", "https://..").markAsDone(true)
+)
 ```
 #### ** Python **
 ```python
